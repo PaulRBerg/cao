@@ -3,19 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "8x.js": "^0.2.11",
     "8x.pay": "^0.2.41",
     "@hackclub/design-system": "^0.0.1-13",
     "@reach/router": "^1.2.1",
+    "bignumber.js": "^4.1.0",
     "husky": "^1.1.1",
     "lint-staged": "^7.3.0",
     "prettier": "^1.14.3",
-    "string_decoder": "^1.1.1",
-    "bignumber.js": "^4.1.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-scripts": "1.1.4",
+    "setprotocol.js": "^1.0.4-rc.5",
+    "string_decoder": "^1.1.1",
     "truffle-contract": "^4.0.0-next.0",
-    "web3": "^0.20.6"
+    "web3": "^0.20.7"
   },
   "husky": {
     "hooks": {
