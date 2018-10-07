@@ -82,15 +82,12 @@ export default class Contact extends React.Component {
       txHash
     );
 
-    if (this.props.callback) {
-      this.props.callback({
-        tokens: this.state.tokensWithSelectedState.filter(
-          item => item.selected
-        ),
-        name: this.state.input,
-        setAddress: setAddress
-      });
-    }
+    bus.tokens = this.state.tokensWithSelectedState.filter(
+      item => item.selected
+    );
+
+    bus.name = this.state.input;
+    bus.setAddress = setAddress;
   }
 
   async onApproveSpending() {

@@ -45,9 +45,10 @@ export default class Portal extends React.Component {
       category: []
     };
 
-    bus.on('hello', () => {
-      console.log('got hello');
-    });
+    console.log('test ~ ' + bus.hello);
+
+    this.onRedeemSet = this.onRedeemSet.bind(this);
+    this.onIssueSet = this.onIssueSet.bind(this);
   }
 
   componentDidMount() {
@@ -237,7 +238,9 @@ export default class Portal extends React.Component {
           )}
         </Container>
         <div style={centerStyle}>
-          <Button style={ButtonStyle}>Allocate Resources</Button>
+          <Button style={ButtonStyle} onClick={() => this.onIssueSet()}>
+            Allocate Resources
+          </Button>
         </div>
         <Footer />
       </Container>

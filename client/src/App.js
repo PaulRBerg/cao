@@ -6,8 +6,14 @@ import Set from './components/Set';
 import Portal from './components/Portal';
 import Contact from './components/Contact';
 import Category from './components/Category';
+import bus from './bus';
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+
+    bus.hello = 'world';
+  }
   render() {
     return (
       <Router>
