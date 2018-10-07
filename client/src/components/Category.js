@@ -7,20 +7,7 @@ import '../App.css';
 import tokens from '../tokens.js';
 
 export default class Contact extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { category: [] };
-  }
-
-  componentDidMount() {
-    this.setState({ category: 'someCategory' });
-  }
-
   render() {
-    const { category } = this.state;
-
-    console.log(category);
-
     const pWeStyle = {
       marginTop: '100px',
       marginBottom: '40px',

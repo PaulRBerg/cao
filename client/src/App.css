@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: 'SFMono';
-  src: url('/assets/fonts/SFMono-Regular') format('truetype');
+  src: url('./assets/fonts/SFMono-Regular.otf') format('truetype');
 }
 
 span.underline {
@@ -21,9 +21,9 @@ button.close-button {
 
 .Category {
   margin-top: 30px;
-  width: 60px;
-  height: 60px;
-  padding: 70px;
+  width: 40px;
+  height: 40px;
+  padding: 40px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -31,7 +31,7 @@ button.close-button {
 
 table {
   position: absolute;
-  margin-top: 30px;
+  margin-top: 50px;
 }
 
 th,
@@ -52,7 +52,7 @@ input {
   color: #212121;
   font-size: 18px;
   border: 0;
-  text-align: -webkit-center;
+  text-align: left;
   border-radius: 4px;
 }
 
@@ -67,7 +67,7 @@ form {
 
 .Search {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
 }
 
