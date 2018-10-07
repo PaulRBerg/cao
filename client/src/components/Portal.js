@@ -64,7 +64,7 @@ export default class Portal extends React.Component {
           <Flex mx={[1, 2]} wrap justify="center">
             <Image
               Responsive
-              src={require('../assets/table.png')}
+              src={require('../assets/images/table.png')}
               alt="table"
               style={imageStyle}
             />
@@ -73,13 +73,9 @@ export default class Portal extends React.Component {
                 <th>Bundle</th>
                 <th>Percent Allocation</th>
                 <th>Price</th>
-                <th>Quantity</th>
-                <th>Total Price</th>
               </tr>
               <tr>
                 <td>Natural Disaster</td>
-                <td>10%</td>
-                <td>10%</td>
                 <td>10%</td>
                 <td>10%</td>
               </tr>
@@ -87,13 +83,9 @@ export default class Portal extends React.Component {
                 <td>Clothing Basics</td>
                 <td>10%</td>
                 <td>10%</td>
-                <td>10%</td>
-                <td>10%</td>
               </tr>
               <tr>
                 <td>Stranded Survival</td>
-                <td>10%</td>
-                <td>10%</td>
                 <td>10%</td>
                 <td>10%</td>
               </tr>
