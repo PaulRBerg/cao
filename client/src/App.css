@@ -71,10 +71,13 @@ form {
   display: flex;
   justify-content: left;
   align-items: center;
+  margin-bottom: 32px;
 }
 
 span.emoji {
-  font-size: 50px;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 48px;
 }
 
 .CreateCustom {
