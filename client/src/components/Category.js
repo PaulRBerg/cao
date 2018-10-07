@@ -7,6 +7,19 @@ import '../App.css';
 import tokens from '../tokens.js';
 
 export default class Contact extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onClick(event) {
+    let array = [];
+    tokens.forEach(token => {
+      array.push(token.address);
+    });
+    console.log(array);
+  }
+
   render() {
     const pWeStyle = {
       marginTop: '100px',
@@ -46,17 +59,17 @@ export default class Contact extends React.Component {
           <form>
             <input placeholder="Enter name ..." />
           </form>
-          <Button style={ButtonStyle}>Create</Button>
+          <Button onClick={this.onClick} style={ButtonStyle}>
+            Create
+          </Button>
+          <Button style={ButtonStyle}>Approve</Button>
+          <Button style={ButtonStyle}>Issue</Button>
+          <Button style={ButtonStyle}>Redeem</Button>
         </div>
         <React.Fragment />
         {tokens.map((foo, index) => (
-          <div className="Category">
-            <span
-              className="emoji"
-              aria-label={foo.name}
-              role="img"
-              key={index}
-            >
+          <div className="Category" key={index}>
+            <span className="emoji" aria-label={foo.name} role="img">
               {foo.symbol}
             </span>
           </div>

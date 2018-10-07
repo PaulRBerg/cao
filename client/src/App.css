@@ -40,6 +40,8 @@ td {
   text-align: left;
   font-weight: 500;
   font-family: 'SFMono';
+  position: relative;
+  top: -30px;
 }
 
 input {
@@ -73,4 +75,8 @@ form {
 
 span.emoji {
   font-size: 50px;
+}
+
+.CreateCustom {
+  margin-top: 50px;
 }

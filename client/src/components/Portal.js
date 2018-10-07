@@ -48,7 +48,7 @@ export default class Portal extends React.Component {
     };
 
     const CreateCustomImageStyle = {
-      width: '1165px',
+      width: '730px',
       height: '278px',
       justifyContent: 'center',
       alignItems: 'center',
@@ -75,8 +75,9 @@ export default class Portal extends React.Component {
 
     const NoCategoryStyle = {
       position: 'absolute',
-      fontSize: '1.7em',
-      fontWeight: '500'
+      fontSize: '1.2em',
+      fontWeight: '400',
+      top: '60px'
     };
 
     return (
@@ -96,26 +97,30 @@ export default class Portal extends React.Component {
                 style={imageStyle}
               />
               <table>
-                <tr>
-                  <th>Bundle</th>
-                  <th>Percent Allocation</th>
-                  <th>Price</th>
-                </tr>
-                <tr>
-                  <td>Natural Disaster</td>
-                  <td>80%</td>
-                  <td>$8.54</td>
-                </tr>
-                <tr>
-                  <td>Clothing Basics</td>
-                  <td>10%</td>
-                  <td>$8.54</td>
-                </tr>
-                <tr>
-                  <td>Stranded Survival</td>
-                  <td>10%</td>
-                  <td>$8.54</td>
-                </tr>
+                <thead>
+                  <tr>
+                    <th>Bundle</th>
+                    <th>Percent Allocation</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Natural Disaster</td>
+                    <td>80%</td>
+                    <td>$8.54</td>
+                  </tr>
+                  <tr>
+                    <td>Clothing Basics</td>
+                    <td>10%</td>
+                    <td>$8.54</td>
+                  </tr>
+                  <tr>
+                    <td>Stranded Survival</td>
+                    <td>10%</td>
+                    <td>$8.54</td>
+                  </tr>
+                </tbody>
               </table>
             </Flex>
           ) : (
@@ -133,7 +138,7 @@ export default class Portal extends React.Component {
                   <th>Price</th>
                 </tr>
                 <p style={NoCategoryStyle}>No categories created.</p>
-                <div>
+                <div className="CreateCustom">
                   <Image
                     Responsive
                     src={require('../assets/images/create-custom-category.png')}
