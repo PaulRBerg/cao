@@ -1,33 +1,35 @@
 import React from 'react';
 import { Container, Text, Button } from '@hackclub/design-system';
 
-// import Footer from './Footer';
+import Footer from './Footer';
 
 import '../App.css';
-import data from '../emoji.json';
+import tokens from '../tokens.js';
 
 export default class Contact extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { data: [] };
+    this.state = { category: [] };
   }
 
   componentDidMount() {
-    this.setState({ data: data });
+    this.setState({ category: 'someCategory' });
   }
 
   render() {
-    const { data } = this.state;
+    const { category } = this.state;
+
+    console.log(category);
 
     const pWeStyle = {
       marginTop: '100px',
       marginBottom: '40px',
       position: 'relative',
       fontFamily: 'Avenir',
-      fontSize: '1.9rem',
-      fontWeight: '800',
+      fontSize: '2.8rem',
+      fontWeight: '900',
       alignItems: 'center',
-      textAlign: 'center',
+      textAlign: 'left',
       lineHeight: '1.2',
       color: 'black'
     };
@@ -49,7 +51,9 @@ export default class Contact extends React.Component {
     return (
       <Container>
         <Text style={pWeStyle}>
-          <span className="underline">Select items for the new category</span>
+          <span className="underline">Select items for </span>
+          <br />
+          <span className="underline">the new category</span>
         </Text>
         <div className="Search">
           <form>
@@ -58,13 +62,19 @@ export default class Contact extends React.Component {
           <Button style={ButtonStyle}>Create</Button>
         </div>
         <React.Fragment />
-        {data.map((foo, index) => (
+        {tokens.map((foo, index) => (
           <div className="Category">
-            <span aria-label={foo.label} role="img" key={index}>
-              {foo.emoji}
+            <span
+              className="emoji"
+              aria-label={foo.name}
+              role="img"
+              key={index}
+            >
+              {foo.symbol}
             </span>
           </div>
         ))}
+        <Footer />
       </Container>
     );
   }

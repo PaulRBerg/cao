@@ -42,7 +42,7 @@ export default class Main extends React.Component {
 
     const pTitleStyle = {
       position: 'relative',
-      top: '20px',
+      top: '30px',
       left: '50px',
       fontFamily: 'Avenir',
       fontSize: '25px',
@@ -55,7 +55,7 @@ export default class Main extends React.Component {
       position: 'relative',
       left: '30px',
       fontFamily: 'Avenir',
-      fontSize: '55px',
+      fontSize: '64px',
       fontWeight: '800',
       lineHeight: '1.1',
       color: 'white'
@@ -87,7 +87,7 @@ export default class Main extends React.Component {
 
     const ButtonStyle = {
       marginLeft: '30px',
-      marginTop: '15px'
+      marginTop: '45px'
     };
 
     const pAllMoneyStyle = {
@@ -127,7 +127,7 @@ export default class Main extends React.Component {
         <Container style={{ maxWidth: '100%', width: '100%' }}>
           <PortalButton />
           <BackgroundImage
-            src={require('../assets/bg.png')}
+            src={require('../assets/images/bg.png')}
             aria-label="kids"
             style={ContainerStyle}
           >
@@ -168,7 +168,7 @@ export default class Main extends React.Component {
           <Text style={{ opacity: '0.75' }}>
             Powered by:{' '}
             <Image
-              src={require('../assets/set-logo.png')}
+              src={require('../assets/images/set-logo.png')}
               alt="set logo"
               style={logoImageStyle}
             />
@@ -179,7 +179,7 @@ export default class Main extends React.Component {
             <div>
               <Image
                 Responsive
-                src={require('../assets/natural.png')}
+                src={require('../assets/images/natural.png')}
                 alt="natural disaster"
                 style={imageStyle}
               />
@@ -187,7 +187,7 @@ export default class Main extends React.Component {
             </div>
             <div>
               <Image
-                src={require('../assets/clothing.png')}
+                src={require('../assets/images/clothing.png')}
                 alt="clothing basics"
                 style={imageStyle}
               />
@@ -195,7 +195,7 @@ export default class Main extends React.Component {
             </div>
             <div>
               <Image
-                src={require('../assets/stranded.png')}
+                src={require('../assets/images/stranded.png')}
                 alt="stranded survival"
                 style={imageStyle}
               />
@@ -210,7 +210,7 @@ export default class Main extends React.Component {
             </Text>
             <Image
               Responsive
-              src={require('../assets/section.png')}
+              src={require('../assets/images/section.png')}
               alt="section"
               style={imageSectionStyle}
             />
