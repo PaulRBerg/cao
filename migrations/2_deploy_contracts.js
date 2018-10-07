@@ -77,7 +77,6 @@ const tokens = [
 		supply: 1
 	},
 	{
-		address: "0x32c96d2d9ab285388d99c1a35533546d60955737",
 		name: "Meat",
 		symbol: "🍗",
 		supply: 1
