@@ -1,0 +1,33 @@
+{
+  "name": "cao",
+  "version": "0.1.0",
+  "description": "CAO",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PaulRBerg/cao.git"
+  },
+  "keywords": [
+    "ethereum",
+    "charity",
+    "set-protocol",
+    "8x-protocol"
+  ],
+  "author": "Paul Berg (https://paulrberg.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PaulRBerg/cao/issues"
+  },
+  "homepage": "https://github.com/PaulRBerg/cao#readme",
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "openzeppelin-solidity": "^1.12.0",
+    "truffle-hdwallet-provider": "0.0.6"
+  }
+}
