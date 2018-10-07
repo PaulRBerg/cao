@@ -44,6 +44,8 @@ export default class Contact extends React.Component {
 
     this.onCreateSet = this.onCreateSet.bind(this);
     this.onApproveSpending = this.onApproveSpending.bind(this);
+    this.onIssueSet = this.onIssueSet.bind(this);
+    this.onRedeemSet = this.onRedeemSet.bind(this);
     this.getAccount = this.getAccount.bind(this);
     this.handleChange = this.handleChange.bind(this);
 
@@ -69,18 +71,32 @@ export default class Contact extends React.Component {
       .filter(item => item.selected)
       .map(item => item.address);
 
-    const txHash = await setProtocol.createSetAsync(
-      theTokens,
-      theTokens.map(item => new BigNumber(1)),
-      naturalUnit,
-      name,
-      symbol,
-      txOpts
-    );
+    console.log(theTokens);
 
-    const setAddress = await setProtocol.getSetAddressFromCreateTxHashAsync(
-      txHash
-    );
+    let txHash, setAddress;
+    try {
+      txHash = await setProtocol.createSetAsync(
+        theTokens,
+        theTokens.map(item => new BigNumber(1)),
+        naturalUnit,
+        name,
+        symbol,
+        txOpts
+      );
+
+      try {
+        setAddress = await setProtocol.getSetAddressFromCreateTxHashAsync(
+          txHash
+        );
+      } catch (err) {
+        console.log('Error generating set', err);
+      }
+    } catch (err) {
+      console.log('Error creating the set', err);
+    }
+
+    console.log('txHash', txHash);
+    console.log('setAddress', setAddress);
 
     bus.tokens = this.state.tokensWithSelectedState.filter(
       item => item.selected
@@ -111,6 +127,65 @@ export default class Contact extends React.Component {
         .filter(item => item.selected)
         .map(item => item.address)
     );
+  }
+
+  async onIssueSet() {
+    const { setProtocol, setAddress } = this.state;
+
+    // Issue 1x Set which equals 10 ** 18 base units.
+    const issueQuantity = new BigNumber(10 ** 18);
+
+    // Check that our issue quantity is divisible by the natural unit.
+    const isMultipleOfNaturalUnit = await setProtocol.setToken.isMultipleOfNaturalUnitAsync(
+      setAddress,
+      issueQuantity
+    );
+
+    if (!isMultipleOfNaturalUnit) {
+      throw new Error(
+        `Issue quantity is not multiple of natural unit. Confirm that your issue quantity is divisible by the natural unit.`
+      );
+    }
+
+    let issueTxHash;
+    try {
+      issueTxHash = await setProtocol.issueAsync(setAddress, issueQuantity, {
+        from: this.getAccount(),
+        gas: gas,
+        gasPrice: gasPrice
+      });
+    } catch (err) {
+      throw new Error(`Error when issuing a new Set token: ${err}`);
+    }
+
+    console.log('issueTxHash', issueTxHash);
+  }
+
+  async onRedeemSet() {
+    const { setProtocol, setAddress } = this.state;
+    const quantity = new BigNumber(10 ** 18);
+    const withdraw = true;
+    const tokensToExclude = [];
+    const txOpts = {
+      from: this.getAccount(),
+      gas: gas,
+      gasPrice: gasPrice
+    };
+
+    let redeemTxHash;
+    try {
+      redeemTxHash = await setProtocol.redeemAsync(
+        setAddress,
+        quantity,
+        withdraw,
+        tokensToExclude,
+        txOpts
+      );
+    } catch (err) {
+      throw new Error(`Error when redeeming a Set token: ${err}`);
+    }
+
+    console.log('redeemTxHash', redeemTxHash);
   }
 
   getAccount() {

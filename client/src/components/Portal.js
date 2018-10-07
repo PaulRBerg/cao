@@ -87,8 +87,6 @@ export default class Portal extends React.Component {
     console.log('issueTxHash', issueTxHash);
   }
 
-  async onSendSet() {}
-
   async onRedeemSet() {
     const { setProtocol, setAddress } = this.state;
     const quantity = new BigNumber(10 ** 18);
