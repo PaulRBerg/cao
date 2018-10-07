@@ -1,42 +1,65 @@
 import React from 'react';
-import { Container, Flex, Text, Image } from '@hackclub/design-system';
+import {
+  Container,
+  Flex,
+  Text,
+  Image,
+  BackgroundImage
+} from '@hackclub/design-system';
 import EightExPay from '8x.pay';
+
+import Footer from './Footer';
 
 import '../App.css';
 
 export default class Main extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.onClick = this.onClick.bind(this);
-  // }
-
-  // onClick(event) {
-  //   return <EightExPay planHash="" label='Pay'/>
-  // }
-
   render() {
     const ContainerStyle = {
-      height: '60vh',
-      maxWidth: '100%'
+      height: '81vh',
+      maxWidth: '100%',
+      backgroundColor: 'transparent'
+    };
+
+    const poweredContainerStyle = {
+      justifyContent: 'center',
+      alignItems: 'center',
+      textAlign: 'center',
+      marginTop: '23px',
+      opacity: '0.75',
+      fontWeight: '500',
+      display: 'contents'
+    };
+
+    const pTitleNameStyle = {
+      marginBottom: '6px',
+      fontSize: '20px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '200px',
+      bottom: '725px',
+      padding: '50px'
     };
 
     const pTitleStyle = {
-      marginTop: '30px',
       position: 'relative',
+      top: '20px',
       left: '50px',
       fontFamily: 'Avenir',
       fontSize: '25px',
-      fontWeight: '700'
+      fontWeight: '700',
+      color: 'white'
     };
 
     const pGiveStyle = {
-      marginTop: '30px',
+      marginTop: '80px',
       position: 'relative',
       left: '30px',
       fontFamily: 'Avenir',
       fontSize: '55px',
       fontWeight: '800',
-      lineHeight: '1.1'
+      lineHeight: '1.1',
+      color: 'white'
     };
 
     const pTheWorldStyle = {
@@ -45,7 +68,9 @@ export default class Main extends React.Component {
       left: '30px',
       fontFamily: 'Avenir',
       fontSize: '25px',
-      fontWeight: '700'
+      fontWeight: '700',
+      color: 'white',
+      maxWidth: '80%'
     };
 
     const pWeStyle = {
@@ -84,21 +109,43 @@ export default class Main extends React.Component {
       marginTop: '10px'
     };
 
+    const imageSectionStyle = {
+      width: '594px',
+      height: '290px'
+    };
+
+    const logoImageStyle = {
+      width: '57px',
+      height: '28px',
+      marginTop: '10px',
+      marginLeft: '3px',
+      display: 'inline-flex',
+      verticalAlign: 'bottom'
+    };
+
     return (
       <div className="main">
-        <Container p={4} bg="snow" style={ContainerStyle}>
-          <Text style={pTitleStyle}>CAO</Text>
-          <Text style={pGiveStyle}>
-            <span className="underline">Give back, </span>
-            <br />
-            <span className="underline"> with crypto</span>
-          </Text>
-          <Text style={pTheWorldStyle}>
-            The world needs more people to play their part.
-          </Text>
-          <Flex mx={[1, 2]} wrap justify="left" style={ButtonStyle}>
-            <EightExPay planHash="" label="Donate $10/month" />
-          </Flex>
+        <Container style={{ maxWidth: '100%', width: '100%' }}>
+          <BackgroundImage
+            src={require('../assets/bg.png')}
+            aria-label="kids"
+            style={ContainerStyle}
+          >
+            <Container style={{ maxWidth: '84rem' }}>
+              <Text style={pTitleStyle}>CAO</Text>
+              <Text style={pGiveStyle}>
+                Give back,
+                <br />
+                with crypto
+              </Text>
+              <Text style={pTheWorldStyle}>
+                The world needs more people to play their part.
+              </Text>
+              <Flex mx={[1, 2]} wrap justify="left" style={ButtonStyle}>
+                <EightExPay planHash="" label="Donate $10/month" />
+              </Flex>
+            </Container>
+          </BackgroundImage>
         </Container>
         <Container>
           <Text style={pWeStyle}>
@@ -113,6 +160,16 @@ export default class Main extends React.Component {
             allocated to different token sets at the end of every month.
           </Text>
         </Container>
+        <Container style={poweredContainerStyle}>
+          <Text style={{ opacity: '0.75' }}>
+            Powered by:{' '}
+            <Image
+              src={require('../assets/set-logo.png')}
+              alt="set logo"
+              style={logoImageStyle}
+            />
+          </Text>
+        </Container>
         <Container px={3} pb={20} style={{ marginTop: '40px' }}>
           <Flex mx={[1, 2]} wrap justify="center">
             <Image
@@ -121,18 +178,35 @@ export default class Main extends React.Component {
               alt="natural disaster"
               style={imageStyle}
             />
+            <Text style={pTitleNameStyle}>Natural Disaster</Text>
             <Image
               src={require('../assets/clothing.png')}
               alt="clothing basics"
               style={imageStyle}
             />
+            <Text style={pTitleNameStyle}>Clothing Basics</Text>
             <Image
               src={require('../assets/stranded.png')}
               alt="stranded survival"
               style={imageStyle}
             />
+            <Text style={pTitleNameStyle}>Stranded Survival</Text>
           </Flex>
         </Container>
+        <Container px={3} pb={20} style={{ marginTop: '40px' }}>
+          <Flex mx={[1, 2]} wrap justify="center">
+            <Text style={pWeStyle}>
+              <span className="underline">This month's CAO allocation</span>
+            </Text>
+            <Image
+              Responsive
+              src={require('../assets/section.png')}
+              alt="section"
+              style={imageSectionStyle}
+            />
+          </Flex>
+        </Container>
+        <Footer />
       </div>
     );
   }
