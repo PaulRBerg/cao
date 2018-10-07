@@ -77,12 +77,12 @@ export default class Main extends React.Component {
       marginBottom: '70px',
       position: 'relative',
       fontFamily: 'Avenir',
-      fontSize: '1.8rem',
+      fontSize: '2.5rem',
       fontWeight: '900',
       justifyContent: 'center',
       alignItems: 'center',
       textAlign: 'center',
-      lineHeight: '1.2'
+      lineHeight: '1.5'
     };
 
     const ButtonStyle = {
