@@ -11,6 +11,8 @@ const config = {
   transferProxyAddress: '0xa0929aba843ff1a1af4451e52d26f7dde3d40f82',
   vaultAddress: '0x76aae6f20658f763bd58f5af028f925e7c5319af'
 };
+const daiAddress = '0x1d82471142f0aeeec9fc375fc975629056c26cee';
+const trueUsdAddress = '0xadb015d61f4beb2a712d237d9d4c5b75bafefd7b';
 
 class App extends Component {
   constructor() {
@@ -32,9 +34,14 @@ class App extends Component {
       setProtocol,
       web3: injectedWeb3,
       // Etherscan Links
-      createdSetLink: ''
+      createdSetLink:
+        'https://kovan.etherscan.io/address/0x074a777081463d2c9e98dd88d78bbb2276cc89f1',
+      stableSetAddress: '0x074a777081463d2c9e98dd88d78bbb2276cc89f1'
     };
     this.createSet = this.createSet.bind(this);
+    this.approveAllowance = this.approveAllowance.bind(this);
+    this.issueSet = this.issueSet.bind(this);
+    this.redeemSet = this.redeemSet.bind(this);
     this.getAccount = this.getAccount.bind(this);
   }
 
@@ -49,8 +56,8 @@ class App extends Component {
      * 2. Modify your Set details below to your liking
      * 3. Click `Create My Set`
      */
-    const daiAddress = '0x1d82471142f0aeeec9fc375fc975629056c26cee';
-    const trueUsdAddress = '0xadb015d61f4beb2a712d237d9d4c5b75bafefd7b';
+
+    let array = ['address1', 'address2'];
 
     const componentAddresses = [daiAddress, trueUsdAddress];
     const componentUnits = [new BigNumber(5), new BigNumber(5)];
@@ -76,11 +83,32 @@ class App extends Component {
       txHash
     );
     this.setState({
-      createdSetLink: `https://kovan.etherscan.io/address/${setAddress}`
+      createdSetLink: `https://kovan.etherscan.io/address/${setAddress}`,
+      stableSetAddress: setAddress
     });
   }
 
+  async approveAllowance() {
+    const { setProtocol } = this.state;
+
+    /**
+     * Approve all component tokens for transfer to the Set Protocol contracts
+     */
+    const approveTokensForTransfer = tokenAddresses => {
+      tokenAddresses.forEach(async function(address) {
+        await setProtocol.setUnlimitedTransferProxyAllowanceAsync(address, {
+          gas: 30000,
+          gasPrice: 6000000000
+        });
+      });
+    };
+
+    approveTokensForTransfer([daiAddress, trueUsdAddress]);
+  }
+
   async issueSet() {
+    const { setProtocol, stableSetAddress } = this.state;
+
     /**
      * Steps to Issue your Set Token
      * -----------------------------
@@ -98,8 +126,64 @@ class App extends Component {
      *   - You now have TestNet tokens for TrueUSD/Dai.
      *   - Be sure to repeat the process for the other remaining TrueUSD/Dai token.
      */
-    // Tutorial Link: https://docs.setprotocol.com/tutorials#issuing-a-set
-    // TODO: Insert your code here
+
+    // Issue 1x StableSet which equals 10 ** 18 base units.
+    const issueQuantity = new BigNumber(10 ** 18);
+
+    // Check that our issue quantity is divisible by the natural unit.
+    const isMultipleOfNaturalUnit = await setProtocol.setToken.isMultipleOfNaturalUnitAsync(
+      stableSetAddress,
+      issueQuantity
+    );
+
+    if (!isMultipleOfNaturalUnit) {
+      throw new Error(
+        `Issue quantity is not multiple of natural unit. Confirm that your issue quantity is divisible by the natural unit.`
+      );
+    }
+
+    let issueTxHash;
+    try {
+      issueTxHash = await setProtocol.issueAsync(
+        stableSetAddress,
+        issueQuantity,
+        {
+          from: this.getAccount(),
+          gas: 4000000,
+          gasPrice: 8000000000
+        }
+      );
+    } catch (err) {
+      throw new Error(`Error when issuing a new Set token: ${err}`);
+    }
+
+    console.log('issueTxHash', issueTxHash);
+  }
+
+  async redeemSet() {
+    const { setProtocol, stableSetAddress } = this.state;
+    const quantity = new BigNumber(10 ** 18);
+    const withdraw = true;
+    const tokensToExclude = [];
+    const txOpts = {
+      from: this.getAccount(),
+      gas: 4000000,
+      gasPrice: 8000000000
+    };
+
+    let redeemTxHash;
+    try {
+      redeemTxHash = await setProtocol.redeemAsync(
+        stableSetAddress,
+        quantity,
+        withdraw,
+        tokensToExclude,
+        txOpts
+      );
+    } catch (err) {
+      throw new Error(`Error when redeeming a Set token: ${err}`);
+    }
+    console.log('redeemTxHash', redeemTxHash);
   }
 
   getAccount() {
@@ -143,22 +227,48 @@ class App extends Component {
         <header>
           <h1 className="App-title">Set Boiler Plate</h1>
         </header>
+        {createdSetLink
+          ? this.renderEtherScanLink(createdSetLink, 'Link to your new Set')
+          : null}
         <div>
           <Button onClick={this.createSet} style={ButtonStyle}>
             Create My Set
           </Button>
-          {createdSetLink
-            ? this.renderEtherScanLink(createdSetLink, 'Link to your new Set')
-            : null}
         </div>
         <div>
-          <Button
-            className="button-disabled"
-            disabled
-            style={DisabledButtonStyle}
-          >
-            Issue My Set Tokens
+          <Button onClick={this.approveAllowance} style={ButtonStyle}>
+            Approve Spending
           </Button>
+        </div>
+        <div>
+          {createdSetLink ? (
+            <Button onClick={this.issueSet} style={ButtonStyle}>
+              Issue My Set Tokens
+            </Button>
+          ) : (
+            <Button
+              className="button-disabled"
+              disabled
+              style={DisabledButtonStyle}
+            >
+              Issue My Set Tokens
+            </Button>
+          )}
+        </div>
+        <div>
+          {createdSetLink ? (
+            <Button onClick={this.redeemSet} style={ButtonStyle}>
+              Redeem My Set Tokens
+            </Button>
+          ) : (
+            <Button
+              className="button-disabled"
+              disabled
+              style={DisabledButtonStyle}
+            >
+              Redeem My Set Tokens
+            </Button>
+          )}
         </div>
       </div>
     );
