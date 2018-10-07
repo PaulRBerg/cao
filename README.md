@@ -15,6 +15,6 @@ Make sure to run `ganache-cli -p 7545`, then do:
 - `npm run start`
 
 ### Authors
-* **Paul Berg** - [github](https://github.com/PaulRBerg)
-* **Cyrus Goh** - [github](https://github.com/lovincyrus)
-* **Kerman Kohli** - [github](https://github.com/kermankohli)
+* **Paul Berg** - [github](https://github.com/PaulRBerg) - [telegram](https://t.me/paulrberg)
+* **Cyrus Goh** - [github](https://github.com/lovincyrus) - [telegram](https://t.me/lovincyrus)
+* **Kerman Kohli** - [github](https://github.com/kermankohli) - [telegram](https://t.me/kermankohli)
