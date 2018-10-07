@@ -26,6 +26,16 @@ export default class Contact extends React.Component {
         <Text style={pWeStyle}>
           <span className="underline">Select items for the new category</span>
         </Text>
+        <div className="Category">
+          <span aria-label="banana" role="img">
+            🍌
+          </span>
+        </div>
+        <div className="Category">
+          <span aria-label="baby-bottle" role="img">
+            🍼
+          </span>
+        </div>
         <Footer />
       </Container>
     );

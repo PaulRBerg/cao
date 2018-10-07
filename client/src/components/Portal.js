@@ -1,5 +1,12 @@
 import React from 'react';
-import { Container, Text, Flex, Image } from '@hackclub/design-system';
+import {
+  Container,
+  Text,
+  Flex,
+  Image,
+  Button,
+  Link
+} from '@hackclub/design-system';
 
 import Footer from './Footer';
 
@@ -28,12 +35,30 @@ export default class Portal extends React.Component {
       textAlign: 'center'
     };
 
+    const ButtonStyle = {
+      fontWeight: '500',
+      fontSize: '15px',
+      textAlign: 'center',
+      padding: '15px',
+      borderRadius: '4px',
+      backgroundColor: 'black',
+      color: 'white',
+      width: '165px',
+      transition: 'all 0.3s ease 0s'
+    };
+
+    const centerStyle = {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    };
+
     return (
       <Container>
         <Text style={pWeStyle}>
           <span className="underline">Right now, the CAO has</span>
           <br />
-          <span className="underline">$2,123,843 to allocate</span>
+          <span className="underline">$3,141,592 to allocate</span>
         </Text>
         <Container px={3} pb={20} style={{ marginTop: '40px' }}>
           <Flex mx={[1, 2]} wrap justify="center">
@@ -43,8 +68,43 @@ export default class Portal extends React.Component {
               alt="table"
               style={imageStyle}
             />
+            <table>
+              <tr>
+                <th>Bundle</th>
+                <th>Percent Allocation</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+              </tr>
+              <tr>
+                <td>Natural Disaster</td>
+                <td>10%</td>
+                <td>10%</td>
+                <td>10%</td>
+                <td>10%</td>
+              </tr>
+              <tr>
+                <td>Clothing Basics</td>
+                <td>10%</td>
+                <td>10%</td>
+                <td>10%</td>
+                <td>10%</td>
+              </tr>
+              <tr>
+                <td>Stranded Survival</td>
+                <td>10%</td>
+                <td>10%</td>
+                <td>10%</td>
+                <td>10%</td>
+              </tr>
+            </table>
           </Flex>
         </Container>
+        <div style={centerStyle}>
+          <Link href="/category">
+            <Button style={ButtonStyle}>Allocate Resources</Button>
+          </Link>
+        </div>
         <Footer />
       </Container>
     );

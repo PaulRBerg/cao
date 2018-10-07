@@ -13,3 +13,23 @@ span.underline {
 button.close-button {
   display: none;
 }
+
+.Category {
+  width: 90px;
+  height: 90px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+table {
+  position: absolute;
+  margin-top: 30px;
+}
+
+th,
+td {
+  padding: 25px;
+  text-align: left;
+  font-weight: 500;
+}

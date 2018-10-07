@@ -142,7 +142,11 @@ export default class Main extends React.Component {
                 The world needs more people to play their part.
               </Text>
               <Flex mx={[1, 2]} wrap justify="left" style={ButtonStyle}>
-                <EightExPay planHash="" label="Donate $10/month" />
+                <EightExPay
+                  planHash=""
+                  label="Donate $10/month"
+                  style={{ backgroundColor: 'rgb(95, 132, 255)' }}
+                />
               </Flex>
             </Container>
           </BackgroundImage>
