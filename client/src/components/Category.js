@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Text, Link, Section } from '@hackclub/design-system';
+import { Container, Text } from '@hackclub/design-system';
 
 import '../App.css';
 
@@ -22,12 +22,7 @@ export default class Contact extends React.Component {
     return (
       <Container>
         <Text style={pWeStyle}>
-          <span className="underline">Contact Us</span>
-          <Section>
-            <Link href="/">
-              <Text>Facebook</Text>
-            </Link>
-          </Section>
+          <span className="underline">Select items for the new category</span>
         </Text>
       </Container>
     );

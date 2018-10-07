@@ -5,6 +5,7 @@ import Main from './components/Main';
 import Set from './components/Set';
 import Portal from './components/Portal';
 import Contact from './components/Contact';
+import Category from './components/Category';
 
 export default class App extends Component {
   render() {
@@ -14,6 +15,7 @@ export default class App extends Component {
         <Set path="/set" />
         <Portal path="/portal" />
         <Contact path="/contact" />
+        <Category path="/category" />
       </Router>
     );
   }

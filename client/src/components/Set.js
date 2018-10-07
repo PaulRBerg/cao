@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Set.css';
+import { Button } from '@hackclub/design-system';
 
 import SetProtocol from 'setprotocol.js';
 import BigNumber from 'bignumber.js';
@@ -120,21 +120,45 @@ class App extends Component {
 
   render() {
     const { createdSetLink } = this.state;
+
+    const ButtonStyle = {
+      maxWidth: '300px',
+      minWidth: '200px',
+      padding: '18px',
+      marginTop: '10px',
+      marginBottom: '10px'
+    };
+
+    const DisabledButtonStyle = {
+      maxWidth: '300px',
+      minWidth: '200px',
+      padding: '18px',
+      marginTop: '10px',
+      marginBottom: '10px',
+      cursor: 'not-allowed'
+    };
+
     return (
       <div className="App">
         <header>
           <h1 className="App-title">Set Boiler Plate</h1>
         </header>
         <div>
-          <button onClick={this.createSet}>Create My Set</button>
+          <Button onClick={this.createSet} style={ButtonStyle}>
+            Create My Set
+          </Button>
           {createdSetLink
             ? this.renderEtherScanLink(createdSetLink, 'Link to your new Set')
             : null}
         </div>
         <div>
-          <button className="button-disabled" disabled>
+          <Button
+            className="button-disabled"
+            disabled
+            style={DisabledButtonStyle}
+          >
             Issue My Set Tokens
-          </button>
+          </Button>
         </div>
       </div>
     );

@@ -36,9 +36,7 @@ export default class Main extends React.Component {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      width: '200px',
-      bottom: '725px',
-      padding: '50px'
+      padding: '20px'
     };
 
     const pTitleStyle = {
@@ -172,25 +170,31 @@ export default class Main extends React.Component {
         </Container>
         <Container px={3} pb={20} style={{ marginTop: '40px' }}>
           <Flex mx={[1, 2]} wrap justify="center">
-            <Image
-              Responsive
-              src={require('../assets/natural.png')}
-              alt="natural disaster"
-              style={imageStyle}
-            />
-            <Text style={pTitleNameStyle}>Natural Disaster</Text>
-            <Image
-              src={require('../assets/clothing.png')}
-              alt="clothing basics"
-              style={imageStyle}
-            />
-            <Text style={pTitleNameStyle}>Clothing Basics</Text>
-            <Image
-              src={require('../assets/stranded.png')}
-              alt="stranded survival"
-              style={imageStyle}
-            />
-            <Text style={pTitleNameStyle}>Stranded Survival</Text>
+            <div>
+              <Image
+                Responsive
+                src={require('../assets/natural.png')}
+                alt="natural disaster"
+                style={imageStyle}
+              />
+              <Text style={pTitleNameStyle}>Natural Disaster</Text>
+            </div>
+            <div>
+              <Image
+                src={require('../assets/clothing.png')}
+                alt="clothing basics"
+                style={imageStyle}
+              />
+              <Text style={pTitleNameStyle}>Clothing Basics</Text>
+            </div>
+            <div>
+              <Image
+                src={require('../assets/stranded.png')}
+                alt="stranded survival"
+                style={imageStyle}
+              />
+              <Text style={pTitleNameStyle}>Stranded Survival</Text>
+            </div>
           </Flex>
         </Container>
         <Container px={3} pb={20} style={{ marginTop: '40px' }}>
