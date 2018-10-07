@@ -8,18 +8,111 @@ import {
   Link
 } from '@hackclub/design-system';
 
+import SetProtocol from 'setprotocol.js';
+import BigNumber from 'bignumber.js';
 import Footer from './Footer';
 
+import { config, gas, gasPrice } from '../constants';
+
 import '../App.css';
+import bus from '../bus';
 
 export default class Portal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { category: [] };
+
+    const injectedWeb3 = window.web3 || undefined;
+    let setProtocol;
+
+    try {
+      // Use MetaMask/Mist provider
+      const provider = injectedWeb3.currentProvider;
+      setProtocol = new SetProtocol(provider, config);
+    } catch (err) {
+      // Throws when user doesn't have MetaMask/Mist running
+      throw new Error(
+        `No injected web3 found when initializing setProtocol: ${err}`
+      );
+    }
+
+    this.state = {
+      createdSetLink: '',
+      setAddress: '',
+      selectedTokens: [],
+      newCategoryName: '',
+      setProtocol,
+      web3: injectedWeb3,
+      category: []
+    };
+
+    bus.on('hello', () => {
+      console.log('got hello');
+    });
   }
 
   componentDidMount() {
     this.setState({ category: 'true' });
+  }
+
+  async onIssueSet() {
+    const { setProtocol, setAddress } = this.state;
+
+    // Issue 1x Set which equals 10 ** 18 base units.
+    const issueQuantity = new BigNumber(10 ** 18);
+
+    // Check that our issue quantity is divisible by the natural unit.
+    const isMultipleOfNaturalUnit = await setProtocol.setToken.isMultipleOfNaturalUnitAsync(
+      setAddress,
+      issueQuantity
+    );
+
+    if (!isMultipleOfNaturalUnit) {
+      throw new Error(
+        `Issue quantity is not multiple of natural unit. Confirm that your issue quantity is divisible by the natural unit.`
+      );
+    }
+
+    let issueTxHash;
+    try {
+      issueTxHash = await setProtocol.issueAsync(setAddress, issueQuantity, {
+        from: this.getAccount(),
+        gas: gas,
+        gasPrice: gasPrice
+      });
+    } catch (err) {
+      throw new Error(`Error when issuing a new Set token: ${err}`);
+    }
+
+    console.log('issueTxHash', issueTxHash);
+  }
+
+  async onSendSet() {}
+
+  async onRedeemSet() {
+    const { setProtocol, setAddress } = this.state;
+    const quantity = new BigNumber(10 ** 18);
+    const withdraw = true;
+    const tokensToExclude = [];
+    const txOpts = {
+      from: this.getAccount(),
+      gas: gas,
+      gasPrice: gasPrice
+    };
+
+    let redeemTxHash;
+    try {
+      redeemTxHash = await setProtocol.redeemAsync(
+        setAddress,
+        quantity,
+        withdraw,
+        tokensToExclude,
+        txOpts
+      );
+    } catch (err) {
+      throw new Error(`Error when redeeming a Set token: ${err}`);
+    }
+
+    console.log('redeemTxHash', redeemTxHash);
   }
 
   render() {
@@ -88,7 +181,7 @@ export default class Portal extends React.Component {
           <span className="underline">$3,141,592 to allocate</span>
         </Text>
         <Container px={3} pb={20} style={{ marginTop: '40px' }}>
-          {!category ? (
+          {this.state.newCategoryName ? (
             <Flex mx={[1, 2]} wrap justify="center">
               <Image
                 Responsive
@@ -106,19 +199,9 @@ export default class Portal extends React.Component {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Natural Disaster</td>
-                    <td>80%</td>
-                    <td>$8.54</td>
-                  </tr>
-                  <tr>
-                    <td>Clothing Basics</td>
-                    <td>10%</td>
-                    <td>$8.54</td>
-                  </tr>
-                  <tr>
-                    <td>Stranded Survival</td>
-                    <td>10%</td>
-                    <td>$8.54</td>
+                    <td>{this.state.newCategoryName}</td>
+                    <td>100%</td>
+                    <td>$3,141,592</td>
                   </tr>
                 </tbody>
               </table>
@@ -146,7 +229,7 @@ export default class Portal extends React.Component {
                     style={{ weight: '55px', height: '55px', float: 'left' }}
                   />
                   <p style={{ float: 'right', paddingLeft: '3px' }}>
-                    Create custom category
+                    <Link href="/category">Create custom category</Link>
                   </p>
                 </div>
               </table>
@@ -154,9 +237,7 @@ export default class Portal extends React.Component {
           )}
         </Container>
         <div style={centerStyle}>
-          <Link href="/category">
-            <Button style={ButtonStyle}>Allocate Resources</Button>
-          </Link>
+          <Button style={ButtonStyle}>Allocate Resources</Button>
         </div>
         <Footer />
       </Container>

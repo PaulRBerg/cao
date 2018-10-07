@@ -5,28 +5,11 @@ import SetProtocol from 'setprotocol.js';
 import BigNumber from 'bignumber.js';
 
 import Footer from './Footer';
+import bus from '../bus';
 
 import '../App.css';
 import tokens from '../tokens.js';
-
-// Kovan configuration
-const config = {
-  coreAddress: '0xdd7d1deb82a64af0a6265951895faf48fc78ddfc',
-  setTokenFactoryAddress: '0x7497d12488ee035f5d30ec716bbf41735554e3b1',
-  transferProxyAddress: '0xa0929aba843ff1a1af4451e52d26f7dde3d40f82',
-  vaultAddress: '0x76aae6f20658f763bd58f5af028f925e7c5319af'
-};
-const gas = 2000000;
-const gasPrice = 10000000000;
-
-// Hardcoded items
-const earthquakeItems = [
-  tokens[0].address, // banana
-  tokens[1].address, // water
-  tokens[2].address, // canned food
-  tokens[5].address, // sleeping bag
-  tokens[7].address // fire
-];
+import { config, gas, gasPrice } from '../constants';
 
 export default class Contact extends React.Component {
   constructor(props) {
@@ -34,6 +17,7 @@ export default class Contact extends React.Component {
 
     const injectedWeb3 = window.web3 || undefined;
     let setProtocol;
+
     try {
       // Use MetaMask/Mist provider
       const provider = injectedWeb3.currentProvider;
@@ -49,29 +33,28 @@ export default class Contact extends React.Component {
       createdSetLink: '',
       setAddress: '',
       setProtocol,
-      web3: injectedWeb3
+      web3: injectedWeb3,
+      tokensWithSelectedState: tokens.map(item => {
+        return {
+          ...item,
+          selected: false
+        };
+      })
     };
 
     this.onCreateSet = this.onCreateSet.bind(this);
     this.onApproveSpending = this.onApproveSpending.bind(this);
-    this.onIssueSet = this.onIssueSet.bind(this);
-    this.onSendSet = this.onSendSet.bind(this);
-    this.onRedeemSet = this.onRedeemSet.bind(this);
     this.getAccount = this.getAccount.bind(this);
+    this.handleChange = this.handleChange.bind(this);
 
-    console.log(earthquakeItems);
+    this.state.tokensWithSelectedState[0].selected = true;
+
+    bus.trigger('hello');
   }
 
   async onCreateSet() {
     const { setProtocol } = this.state;
 
-    const componentUnits = [
-      new BigNumber(1),
-      new BigNumber(1),
-      new BigNumber(1),
-      new BigNumber(1),
-      new BigNumber(1)
-    ];
     const naturalUnit = new BigNumber(10);
     const name = 'Stable Set';
     const symbol = 'SBST';
@@ -82,22 +65,32 @@ export default class Contact extends React.Component {
       gasPrice: gasPrice
     };
 
+    let theTokens = this.state.tokensWithSelectedState
+      .filter(item => item.selected)
+      .map(item => item.address);
+
     const txHash = await setProtocol.createSetAsync(
-      earthquakeItems,
-      componentUnits,
+      theTokens,
+      theTokens.map(item => new BigNumber(1)),
       naturalUnit,
       name,
       symbol,
       txOpts
     );
+
     const setAddress = await setProtocol.getSetAddressFromCreateTxHashAsync(
       txHash
     );
-    console.log('setAddress', setAddress);
-    this.setState({
-      createdSetLink: `https://kovan.etherscan.io/address/${setAddress}`,
-      setAddress: setAddress
-    });
+
+    if (this.props.callback) {
+      this.props.callback({
+        tokens: this.state.tokensWithSelectedState.filter(
+          item => item.selected
+        ),
+        name: this.state.input,
+        setAddress: setAddress
+      });
+    }
   }
 
   async onApproveSpending() {
@@ -116,73 +109,23 @@ export default class Contact extends React.Component {
     };
 
     console.log('approved successfully');
-    approveTokensForTransfer(earthquakeItems);
-  }
-
-  async onIssueSet() {
-    const { setProtocol, setAddress } = this.state;
-
-    // Issue 1x Set which equals 10 ** 18 base units.
-    const issueQuantity = new BigNumber(10 ** 18);
-
-    // Check that our issue quantity is divisible by the natural unit.
-    const isMultipleOfNaturalUnit = await setProtocol.setToken.isMultipleOfNaturalUnitAsync(
-      setAddress,
-      issueQuantity
+    approveTokensForTransfer(
+      this.state.tokensWithSelectedState
+        .filter(item => item.selected)
+        .map(item => item.address)
     );
-
-    if (!isMultipleOfNaturalUnit) {
-      throw new Error(
-        `Issue quantity is not multiple of natural unit. Confirm that your issue quantity is divisible by the natural unit.`
-      );
-    }
-
-    let issueTxHash;
-    try {
-      issueTxHash = await setProtocol.issueAsync(setAddress, issueQuantity, {
-        from: this.getAccount(),
-        gas: gas,
-        gasPrice: gasPrice
-      });
-    } catch (err) {
-      throw new Error(`Error when issuing a new Set token: ${err}`);
-    }
-
-    console.log('issueTxHash', issueTxHash);
-  }
-
-  async onSendSet() {}
-
-  async onRedeemSet() {
-    const { setProtocol, setAddress } = this.state;
-    const quantity = new BigNumber(10 ** 18);
-    const withdraw = true;
-    const tokensToExclude = [];
-    const txOpts = {
-      from: this.getAccount(),
-      gas: gas,
-      gasPrice: gasPrice
-    };
-
-    let redeemTxHash;
-    try {
-      redeemTxHash = await setProtocol.redeemAsync(
-        setAddress,
-        quantity,
-        withdraw,
-        tokensToExclude,
-        txOpts
-      );
-    } catch (err) {
-      throw new Error(`Error when redeeming a Set token: ${err}`);
-    }
-    console.log('redeemTxHash', redeemTxHash);
   }
 
   getAccount() {
     const { web3 } = this.state;
     if (web3.eth.accounts[0]) return web3.eth.accounts[0];
     throw new Error('Your MetaMask is locked. Unlock it to continue.');
+  }
+
+  handleChange(e) {
+    this.setState({
+      input: e.target.value
+    });
   }
 
   render() {
@@ -224,7 +167,7 @@ export default class Contact extends React.Component {
         </Text>
         <div className="Search">
           <form>
-            <input placeholder="Enter name ..." />
+            <input placeholder="Enter name ..." onChange={this.handleChange} />
           </form>
           <Button onClick={this.onCreateSet} style={ButtonStyle}>
             Create
@@ -246,14 +189,26 @@ export default class Contact extends React.Component {
             : null}
         </div>
         <React.Fragment />
-        {tokens.map((foo, index) => (
-          <div className="Category" key={index}>
+        {this.state.tokensWithSelectedState.map((foo, index) => (
+          <div
+            className="Category"
+            key={index}
+            onClick={() => {
+              console.log(index);
+
+              let newState = this.state.tokensWithSelectedState;
+              newState[index].selected = !foo.selected;
+              this.setState({
+                tokensWithSelectedState: newState
+              });
+            }}
+          >
             <span
               className="emoji"
               aria-label={foo.name}
               role="img"
               style={{
-                background: [0, 1, 2, 5, 7].includes(index) ? '#efefef' : '#fff'
+                background: foo.selected ? '#efefef' : '#fff'
               }}
             >
               {foo.symbol}
