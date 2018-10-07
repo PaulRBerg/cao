@@ -9,6 +9,7 @@ import {
 import EightExPay from '8x.pay';
 
 import Footer from './Footer';
+import PortalButton from './PortalButton';
 
 import '../App.css';
 
@@ -124,6 +125,7 @@ export default class Main extends React.Component {
     return (
       <div className="main">
         <Container style={{ maxWidth: '100%', width: '100%' }}>
+          <PortalButton />
           <BackgroundImage
             src={require('../assets/bg.png')}
             aria-label="kids"

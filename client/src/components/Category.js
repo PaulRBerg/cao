@@ -1,6 +1,8 @@
 import React from 'react';
 import { Container, Text } from '@hackclub/design-system';
 
+import Footer from './Footer';
+
 import '../App.css';
 
 export default class Contact extends React.Component {
@@ -24,6 +26,7 @@ export default class Contact extends React.Component {
         <Text style={pWeStyle}>
           <span className="underline">Select items for the new category</span>
         </Text>
+        <Footer />
       </Container>
     );
   }
