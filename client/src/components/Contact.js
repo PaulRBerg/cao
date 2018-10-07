@@ -1,6 +1,8 @@
 import React from 'react';
 import { Container, Text, Link, Section } from '@hackclub/design-system';
 
+import Footer from './Footer';
+
 import '../App.css';
 
 export default class Contact extends React.Component {
@@ -29,6 +31,7 @@ export default class Contact extends React.Component {
             </Link>
           </Section>
         </Text>
+        <Footer />
       </Container>
     );
   }

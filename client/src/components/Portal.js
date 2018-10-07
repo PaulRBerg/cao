@@ -15,8 +15,8 @@ import '../App.css';
 export default class Portal extends React.Component {
   render() {
     const pWeStyle = {
-      marginTop: '70px',
-      marginBottom: '70px',
+      marginTop: '50px',
+      marginBottom: '50px',
       position: 'relative',
       fontFamily: 'Avenir',
       fontSize: '1.8rem',

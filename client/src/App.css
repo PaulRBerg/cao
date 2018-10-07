@@ -15,8 +15,9 @@ button.close-button {
 }
 
 .Category {
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
+  padding: 80px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -32,4 +33,33 @@ td {
   padding: 25px;
   text-align: left;
   font-weight: 500;
+}
+
+input {
+  outline: 0;
+  height: 42px;
+  width: 244px;
+  line-height: 42px;
+  padding: 0 16px;
+  background-color: hsla(0, 0%, 100%, 0.8);
+  color: #212121;
+  font-size: 13px;
+  border: 0;
+  text-align: -webkit-center;
+  border-radius: 4px;
+}
+
+form {
+  outline: 0;
+  float: left;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  border-radius: 4px;
+}
+
+.Search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
